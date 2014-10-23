@@ -12,6 +12,8 @@ c:\wamp\www\mad9135\podcastApp\platforms\android\res\drawable-port-ldpi\screen.p
 c:\wamp\www\mad9135\podcastApp\platforms\android\res\drawable-port-mdpi\screen.png \
 c:\wamp\www\mad9135\podcastApp\platforms\android\res\drawable-port-xhdpi\screen.png \
 c:\wamp\www\mad9135\podcastApp\platforms\android\res\drawable-xhdpi\icon.png \
+c:\wamp\www\mad9135\podcastApp\platforms\android\res\drawable-xxhdpi\icon.png \
+c:\wamp\www\mad9135\podcastApp\platforms\android\res\drawable-xxxhdpi\icon.png \
 c:\wamp\www\mad9135\podcastApp\platforms\android\res\values\strings.xml \
 c:\wamp\www\mad9135\podcastApp\platforms\android\res\xml\config.xml \
 c:\wamp\www\mad9135\podcastApp\platforms\android\ant-build\res\drawable\icon.png \
@@ -27,6 +29,8 @@ c:\wamp\www\mad9135\podcastApp\platforms\android\ant-build\res\drawable-port-ldp
 c:\wamp\www\mad9135\podcastApp\platforms\android\ant-build\res\drawable-port-mdpi\screen.png \
 c:\wamp\www\mad9135\podcastApp\platforms\android\ant-build\res\drawable-port-xhdpi\screen.png \
 c:\wamp\www\mad9135\podcastApp\platforms\android\ant-build\res\drawable-xhdpi\icon.png \
+c:\wamp\www\mad9135\podcastApp\platforms\android\ant-build\res\drawable-xxhdpi\icon.png \
+c:\wamp\www\mad9135\podcastApp\platforms\android\ant-build\res\drawable-xxxhdpi\icon.png \
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www \
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\_where-is-www.txt \
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\cordova.js \
@@ -37,6 +41,9 @@ c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\index.html \
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\js \
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\plugins \
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\css\index.css \
+c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\appIcon-01.png \
+c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\appIcon.ai \
+c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\arrow-left.svg \
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\magnify.svg \
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\refresh.svg \
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\js\index.js \

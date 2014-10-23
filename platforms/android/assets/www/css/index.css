@@ -47,6 +47,10 @@ table {
 	border-spacing: 0;
 }
 
+.hidden{
+    display: none;
+}
+
 
 /********************Header***********************/
 
@@ -79,4 +83,10 @@ header img{
 
 .pushLeft{
     left: 1%;
+}
+
+/************************Player*********************/
+
+#player{
+    background-color: #FFFFFF;
 }

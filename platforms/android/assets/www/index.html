@@ -29,7 +29,22 @@
     </head>
     <body>
         <div class="app">
-            <header><h1>PodPro</h1><img id = "refresh" class="pushLeft" src="img/refresh.svg"><img id = "search" src="img/magnify.svg"></header>
+            <div class="app">
+            <div id = "menu">
+                <header>
+                    <h1>PodPro</h1>
+                    <img id = "refresh" class="pushLeft" src="img/refresh.svg">
+                    <img id = "search" src="img/magnify.svg">
+                </header>
+            </div>
+            <div id = "player" class = "hidden">
+                <header>
+                    <h1>Player</h1>
+                    <img id = "back" class="pushLeft" src="img/arrow-left.svg">
+                </header>
+            
+            </div>
+        </div>
         </div>
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
