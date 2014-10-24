@@ -17,6 +17,10 @@
  * under the License.
  */
 var app = {
+    
+    //declares podcast variable
+    podcast: {},
+    
     // Application Constructor
     initialize: function() {
         this.bindEvents();
@@ -35,6 +39,7 @@ var app = {
     onDeviceReady: function() {
         app.buttonSetup();
         app.receivedEvent('deviceready');
+        app.mediaSetup();
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {
@@ -51,7 +56,7 @@ var app = {
         var btnRefresh = document.getElementById("refresh");
         
             btnRefresh.addEventListener("click",function(){
-                alert("Refresh");
+                //alert("Refresh");
                 console.log('calling xhr');
                 var request = new XMLHttpRequest();
                 request.open("GET", "http://feeds.feedburner.com/WelcomeToNightVale", true);
@@ -59,7 +64,7 @@ var app = {
                 if (request.readyState == 4) {
                     if (request.status == 200 || request.status == 0) {
                         
-                        alert("Success");
+                        //alert("Success");
                         
                         //console.log(request.responseText);
                         
@@ -67,7 +72,7 @@ var app = {
                           {
                             parser=new DOMParser();
                             xmlDoc=parser.parseFromString(request.responseText,"text/xml");
-                            alert("Parsed");
+                            //alert("Parsed");
                           }
                         else // Internet Explorer
                           {
@@ -76,7 +81,26 @@ var app = {
                             xmlDoc.loadXML(txt);
                           }
                         
-                        console.log(xmlDoc.getElementsByTagName("title")[0].childNodes[0].nodeValue);
+                        contentList = document.getElementById("contentList");
+                        
+                        contentList.innerHTML = "";
+                        
+                        var string = "<ul>";
+                        
+                        for(var i = 0; i < 3; i++){
+                            string += "<li>";
+                            //string += "<img src=" + xmlDoc..getElementsByTagName("url")[0].childNodes[0].nodeValue + "/>";
+                            string += "<h2>";
+                            string += xmlDoc.getElementsByTagName("title")[i].childNodes[0].nodeValue;
+                            string += "</h2>";
+                            string += "</li>";
+                            
+                            contentList.innerHTML += string;
+                            
+                            string = "";
+                        }
+                        
+                        //console.log(xmlDoc.getElementsByTagName("title")[0].childNodes[0].nodeValue);
 
                     }
                 }
@@ -92,10 +116,32 @@ var app = {
         btnBack.addEventListener("click",function(){
             app.goMenu();
         },true);
+        
+        var btnPlay = document.getElementById("play");
+        btnPlay.addEventListener("click",function(){
+            app.playPodcast();
+        },true);
+        
+        var btnPause = document.getElementById("pause");
+        btnPause.addEventListener("click",function(){
+            app.pausePodcast();
+        },true);
+        
+        var btnStop = document.getElementById("stop");
+        btnStop.addEventListener("click",function(){
+            app.stopPodcast();
+        },true);
     
     
         
     },
+    
+    
+    mediaSetup: function(){
+      var src = encodeURI("https://dl.dropboxusercontent.com/u/887989/test.mp3");
+      podcast = new Media(src);  
+    },
+    
     goPlayer: function(){
         var hidden = document.getElementById("menu");
         var shown = document.getElementById("player");
@@ -107,6 +153,22 @@ var app = {
         var shown = document.getElementById("menu");
         hidden.className = "hidden";
         shown.className = "";
+    },
+    
+    playPodcast: function(){
+        console.log("YOU CLICKED PLAY");
+        podcast.play();
+        
+    },
+    pausePodcast: function(){
+        console.log("YOU CLICKED PAUSE!");
+        podcast.pause();
+    },
+    stopPodcast: function(){
+        console.log("YOU CLICKED STOP!");
+        podcast.stop();
+        podcast.release();
+        
     }
 };
 

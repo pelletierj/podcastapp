@@ -45,6 +45,8 @@ c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\appIcon-01.png \
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\appIcon.ai \
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\arrow-left.svg \
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\magnify.svg \
+c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\play.svg \
+c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\plus.svg \
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\refresh.svg \
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\js\index.js \
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\plugins\org.apache.cordova.file \
