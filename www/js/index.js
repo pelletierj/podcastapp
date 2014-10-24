@@ -76,6 +76,10 @@ var app = {
                 //alert("Refresh");
                 
                 if(podcastList.length >= 1){
+                    
+                    console.log(podcastList.length);
+                    
+                var string = "";
                 
                 for(var j = 0; j < podcastList.length; j++){
                 
@@ -91,7 +95,7 @@ var app = {
 
                             //console.log(request.responseText);
 
-                            if (window.DOMParser)
+                            /*if (window.DOMParser)
                               {
                                 parser=new DOMParser();
                                 xmlDoc=parser.parseFromString(request.responseText,"text/xml");
@@ -102,26 +106,36 @@ var app = {
                                 xmlDoc=new ActiveXObject("Microsoft.XMLDOM");
                                 xmlDoc.async=false;
                                 xmlDoc.loadXML(txt);
-                              }
+                              }*/
+                            
+                            //console.log(request.responseXML);
+                            
+                            var podcastInfo = request.responseXML;
+                            podcastInfo = podcastInfo.getElementsByTagName("item");
+                            
+                            console.log(podcastInfo);
 
                             contentList = document.getElementById("contentList");
 
                             contentList.innerHTML = "";
 
-                            var string = "<ul>";
+                            string += "<ul>";
 
                             for(var i = 0; i < 3; i++){
                                 string += "<li>";
-                                //string += "<img src=" + xmlDoc..getElementsByTagName("url")[0].childNodes[0].nodeValue + "/>";
+                                //string += "<img src=" + xmlDoc.getElementsByTagName("url")[i].childNodes[0].nodeValue + "/>";
                                 string += "<h2>";
-                                string += xmlDoc.getElementsByTagName("title")[i].childNodes[0].nodeValue;
+                                string += podcastInfo[i].querySelector("title").textContent;
                                 string += "</h2>";
                                 string += "</li>";
-
-                                contentList.innerHTML += string;
-
-                                string = "";
+                                
                             }
+                            
+                            string += "</ul>";
+                            
+                            contentList.innerHTML += string;
+
+                            //string = "";
 
                             //console.log(xmlDoc.getElementsByTagName("title")[0].childNodes[0].nodeValue);
 
