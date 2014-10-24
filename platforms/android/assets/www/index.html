@@ -53,6 +53,15 @@
                 <button id = "play">Play!</button>
                 <button id = "pause">Pause!</button>
                 <button id = "stop">JESUS CHRIST STOP!</button>
+                <button id = "skip">Skip 30 Seconds</button>
+                <button id = "reverse">Reverse 10 Seconds</button>
+                
+                <div class="seekbar">
+                  <input type="range" value="38" />
+                  <div class="seekbar-progress">
+                    <div role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="38" style="width: 38%;"></div>
+                  </div>
+                </div>
                 
             </div>
                 
@@ -61,6 +70,10 @@
                     <h1>Add</h1>
                     <img class = "back pushLeft" src="img/arrow-left.svg">
                 </header>
+                
+                <p>Enter a podcast url:</p>
+                <input id="addPodcastText" type="text" value="http://feeds.feedburner.com/WelcomeToNightVale">
+                <input id="addPodcastButton" type="submit" value="Add Podcast">
                 
             </div>
         </div>

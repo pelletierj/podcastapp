@@ -16,10 +16,15 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+var podcastList = [];
+
 var app = {
     
     //declares podcast variable
     podcast: {},
+    
+    //podcast list array
+    //podcastList: [],
     
     // Application Constructor
     initialize: function() {
@@ -59,79 +64,92 @@ var app = {
             
         },true);
         
+        var btnAddToList = document.getElementById("addPodcastButton");
+        btnAddToList.addEventListener("click",function(){
+            app.addToList();
+            
+        },true);
+        
         var btnRefresh = document.getElementById("refresh");
         
             btnRefresh.addEventListener("click",function(){
                 //alert("Refresh");
-                console.log('calling xhr');
-                var request = new XMLHttpRequest();
-                request.open("GET", "http://feeds.feedburner.com/WelcomeToNightVale", true);
-                request.onreadystatechange = function() {
-                if (request.readyState == 4) {
-                    if (request.status == 200 || request.status == 0) {
-                        
-                        //alert("Success");
-                        
-                        //console.log(request.responseText);
-                        
-                        if (window.DOMParser)
-                          {
-                            parser=new DOMParser();
-                            xmlDoc=parser.parseFromString(request.responseText,"text/xml");
-                            //alert("Parsed");
-                          }
-                        else // Internet Explorer
-                          {
-                            xmlDoc=new ActiveXObject("Microsoft.XMLDOM");
-                            xmlDoc.async=false;
-                            xmlDoc.loadXML(txt);
-                          }
-                        
-                        contentList = document.getElementById("contentList");
-                        
-                        contentList.innerHTML = "";
-                        
-                        var string = "<ul>";
-                        
-                        for(var i = 0; i < 3; i++){
-                            string += "<li>";
-                            //string += "<img src=" + xmlDoc..getElementsByTagName("url")[0].childNodes[0].nodeValue + "/>";
-                            string += "<h2>";
-                            string += xmlDoc.getElementsByTagName("title")[i].childNodes[0].nodeValue;
-                            string += "</h2>";
-                            string += "</li>";
-                            
-                            contentList.innerHTML += string;
-                            
-                            string = "";
-                        }
-                        
-                        //console.log(xmlDoc.getElementsByTagName("title")[0].childNodes[0].nodeValue);
-
-                    }
-                }
-                    
-                }
                 
+                if(podcastList.length >= 1){
+                
+                for(var j = 0; j < podcastList.length; j++){
+                
+                
+                    console.log('calling xhr');
+                    var request = new XMLHttpRequest();
+                    request.open("GET", podcastList[j], true);
+                    request.onreadystatechange = function() {
+                    if (request.readyState == 4) {
+                        if (request.status == 200 || request.status == 0) {
+
+                            //alert("Success");
+
+                            //console.log(request.responseText);
+
+                            if (window.DOMParser)
+                              {
+                                parser=new DOMParser();
+                                xmlDoc=parser.parseFromString(request.responseText,"text/xml");
+                                //alert("Parsed");
+                              }
+                            else // Internet Explorer
+                              {
+                                xmlDoc=new ActiveXObject("Microsoft.XMLDOM");
+                                xmlDoc.async=false;
+                                xmlDoc.loadXML(txt);
+                              }
+
+                            contentList = document.getElementById("contentList");
+
+                            contentList.innerHTML = "";
+
+                            var string = "<ul>";
+
+                            for(var i = 0; i < 3; i++){
+                                string += "<li>";
+                                //string += "<img src=" + xmlDoc..getElementsByTagName("url")[0].childNodes[0].nodeValue + "/>";
+                                string += "<h2>";
+                                string += xmlDoc.getElementsByTagName("title")[i].childNodes[0].nodeValue;
+                                string += "</h2>";
+                                string += "</li>";
+
+                                contentList.innerHTML += string;
+
+                                string = "";
+                            }
+
+                            //console.log(xmlDoc.getElementsByTagName("title")[0].childNodes[0].nodeValue);
+
+                                }
+                            }
+
+                        }
+                
+                    }
+                    
+                }else{
+                    
+                    contentList = document.getElementById("contentList");
+
+                    contentList.innerHTML = "No Podcasts to load, please add a podcast first"; 
+                }
                 request.send();
             },true); 
         
         
         
         var btnBack = document.getElementsByClassName("back");
+        for(var i=0;i<btnBack.length;i++){
+            btnBack[i].addEventListener("click",function(){
+                app.goMenu();
+            },true);
+        }
             
-           // btnBack.addEventListener("click",function(){
-            
-            for(var i=0;i<btnBack.length;i++){
-                btnBack[i].addEventListener("click",function(){
-                    app.goMenu();
-                },true);
-            }
-            
-                
-            
-       
-        
         var btnPlay = document.getElementById("play");
         btnPlay.addEventListener("click",function(){
             app.playPodcast();
@@ -146,9 +164,17 @@ var app = {
         btnStop.addEventListener("click",function(){
             app.stopPodcast();
         },true);
-    
-    
         
+        var btnSkip = document.getElementById("skip");
+        btnSkip.addEventListener("click",function(){
+            app.skipPodcast();
+        },true);
+        
+        var btnReverse = document.getElementById("reverse");
+        btnReverse.addEventListener("click",function(){
+            app.reversePodcast();
+        },true);
+    
     },
     
     
@@ -178,6 +204,15 @@ var app = {
         shown.className = "";
     },
     
+    addToList: function(){
+        
+        textValue = document.getElementById("addPodcastText");
+        
+        podcastList.push(textValue.value);
+        
+        alert("Podcast Added");
+    },
+    
     playPodcast: function(){
         console.log("YOU CLICKED PLAY");
         podcast.play();
@@ -191,8 +226,37 @@ var app = {
         console.log("YOU CLICKED STOP!");
         podcast.stop();
         podcast.release();
-        
+    },
+    
+    skipPodcast: function(){
+        console.log("YOU CLICKED SKIP");
+        podcast.getCurrentPosition(function(position){
+            //alert(position + " seconds.");
+            //alert("From : " + position * 1000 + " miliseconds.");
+            podcast.seekTo(position*1000 + 30000);
+            //alert("To : " + position * 1000 + " miliseconds.");
+        });
+    },
+    
+    reversePodcast: function(){
+        console.log("YOU CLICKED REVERSE");
+        podcast.getCurrentPosition(function(position){
+            //alert(position + " seconds.");
+            //alert("From : " + position * 1000 + " miliseconds.");
+            podcast.seekTo(position*1000 - 10000);
+            //alert("To : " + position * 1000 + " miliseconds.");
+        });
     }
 };
+
+function qs(s) { return document.querySelector(s) }
+
+    var handle = qs('.seekbar input[type="range"]');
+    var progressbar = qs('.seekbar div[role="progressbar"]');
+
+    handle.addEventListener('input', function(){
+      progressbar.style.width = this.value + '%';
+      progressbar.setAttribute('aria-valuenow', this.value);
+    });
 
 app.initialize();
