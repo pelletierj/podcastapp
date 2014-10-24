@@ -47,9 +47,15 @@ var app = {
     },
     
     buttonSetup: function() {
-        var btnSearch = document.getElementById("search");
-        btnSearch.addEventListener("click",function(){
+        var btnPlayer = document.getElementById("playerButton");
+        btnPlayer.addEventListener("click",function(){
             app.goPlayer();
+            
+        },true);
+        
+        var btnAdd = document.getElementById("addButton");
+        btnAdd.addEventListener("click",function(){
+            app.goAdd();
             
         },true);
         
@@ -112,10 +118,19 @@ var app = {
         
         
         
-        var btnBack = document.getElementById("back");
-        btnBack.addEventListener("click",function(){
-            app.goMenu();
-        },true);
+        var btnBack = document.getElementsByClassName("back");
+            
+           // btnBack.addEventListener("click",function(){
+            
+            for(var i=0;i<btnBack.length;i++){
+                btnBack[i].addEventListener("click",function(){
+                    app.goMenu();
+                },true);
+            }
+            
+                
+            
+       
         
         var btnPlay = document.getElementById("play");
         btnPlay.addEventListener("click",function(){
@@ -148,10 +163,18 @@ var app = {
         hidden.className = "hidden";
         shown.className = "";
     },
+    goAdd: function(){
+        var hidden = document.getElementById("menu");
+        var shown = document.getElementById("addPage");
+        hidden.className = "hidden";
+        shown.className = "";
+    },
     goMenu: function(){
         var hidden = document.getElementById("player");
+        var hidden2 = document.getElementById("addPage");
         var shown = document.getElementById("menu");
         hidden.className = "hidden";
+        hidden2.className = "hidden";
         shown.className = "";
     },
     
