@@ -163,12 +163,12 @@ ul{
 }
 
 ul img{
-    width: 20%;
+    width: 65px;
     float: left;
 }
 
 ul li{
-   border: 1px solid #C9C9C9;
+    border: 1px solid #C9C9C9;
     padding: 10px;
     margin: 5px;
     box-shadow: 0 5px 20px #cccccc;
@@ -180,6 +180,13 @@ ul h2{
     max-width: 70%;
     padding-left: 5px;
     color: #03a9f4;
+}
+
+.duration{
+    color: #C9C9C9;
+    font-size: 0.7em;
+    margin-left: 70px;
+    clear: both;
 }
     
 

@@ -97,9 +97,9 @@ var app = {
                                     console.log(podcastList[j]);
                                     if (request.status == 200 || request.status == 0) {
 
-                                        var podcastInfo = request.responseXML;
-                                        podcastChannel = podcastInfo.getElementsByTagName("channel");
-                                        podcastInfo = podcastInfo.getElementsByTagName("item");
+                                        var podcastXML = request.responseXML;
+                                        podcastChannel = podcastXML.getElementsByTagName("channel");
+                                        podcastInfo = podcastXML.getElementsByTagName("item");
 
 
                                         string += "<ul>";
@@ -110,6 +110,9 @@ var app = {
                                             string += "<h2>";
                                             string += podcastInfo[i].querySelector("title").textContent;
                                             string += "</h2>";
+                                            string += "<p class='duration'>";
+                                            string += "Duration: " + podcastInfo[i].getElementsByTagNameNS("*", "duration")[0].textContent;
+                                            string += "</p>";
                                             string += "</li>";
 
                                         }
