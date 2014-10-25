@@ -73,78 +73,63 @@ var app = {
         var btnRefresh = document.getElementById("refresh");
         
             btnRefresh.addEventListener("click",function(){
-                //alert("Refresh");
+                
+                contentList = document.getElementById("contentList");
+
+                //contentList.innerHTML = " ";
+                var string = "";
                 
                 if(podcastList.length >= 1){
                     
-                    console.log(podcastList.length);
-                    
-                var string = "";
-                
-                for(var j = 0; j < podcastList.length; j++){
-                
-                
-                    console.log('calling xhr');
-                    var request = new XMLHttpRequest();
-                    request.open("GET", podcastList[j], true);
-                    request.onreadystatechange = function() {
-                    if (request.readyState == 4) {
-                        if (request.status == 200 || request.status == 0) {
+                        for(var j = 0; j < podcastList.length; j++){
 
-                            //alert("Success");
-
-                            //console.log(request.responseText);
-
-                            /*if (window.DOMParser)
-                              {
-                                parser=new DOMParser();
-                                xmlDoc=parser.parseFromString(request.responseText,"text/xml");
-                                //alert("Parsed");
-                              }
-                            else // Internet Explorer
-                              {
-                                xmlDoc=new ActiveXObject("Microsoft.XMLDOM");
-                                xmlDoc.async=false;
-                                xmlDoc.loadXML(txt);
-                              }*/
+                            console.log(podcastList[j]);
+                            console.log(podcastList.length);
                             
-                            //console.log(request.responseXML);
-                            
-                            var podcastInfo = request.responseXML;
-                            podcastInfo = podcastInfo.getElementsByTagName("item");
-                            
-                            console.log(podcastInfo);
-
-                            contentList = document.getElementById("contentList");
-
-                            contentList.innerHTML = "";
-
-                            string += "<ul>";
-
-                            for(var i = 0; i < 3; i++){
-                                string += "<li>";
-                                //string += "<img src=" + xmlDoc.getElementsByTagName("url")[i].childNodes[0].nodeValue + "/>";
-                                string += "<h2>";
-                                string += podcastInfo[i].querySelector("title").textContent;
-                                string += "</h2>";
-                                string += "</li>";
-                                
+                            while (contentList.hasChildNodes()) {
+                                contentList.removeChild(contentList.firstChild);
                             }
                             
-                            string += "</ul>";
+                                var request = new XMLHttpRequest();
+                                request.open("GET", podcastList[j], false);
+                                request.onreadystatechange = function() {
+                                if (request.readyState == 4) {
+                                    console.log(podcastList[j]);
+                                    if (request.status == 200 || request.status == 0) {
+
+                                        var podcastInfo = request.responseXML;
+                                        podcastChannel = podcastInfo.getElementsByTagName("channel");
+                                        podcastInfo = podcastInfo.getElementsByTagName("item");
+
+
+                                        string += "<ul>";
+
+                                        for(var i = 0; i < 3; i++){
+                                            string += "<li>";
+                                            string += "<img src='" +podcastChannel[0].querySelector("image").querySelector("url").textContent +"'/>";
+                                            string += "<h2>";
+                                            string += podcastInfo[i].querySelector("title").textContent;
+                                            string += "</h2>";
+                                            string += "</li>";
+
+                                        }
+
+                                        string += "</ul>";
+                                        
+                                        console.log(string);
+                                        
+                                        contentList.innerHTML += string;
                             
-                            contentList.innerHTML += string;
-
-                            //string = "";
-
-                            //console.log(xmlDoc.getElementsByTagName("title")[0].childNodes[0].nodeValue);
-
+                                        
+                                        
+                                        }
+                                    }
                                 }
-                            }
+
+                                request.send();
 
                         }
-                
-                    }
+                    
                     
                 }else{
                     
@@ -152,7 +137,7 @@ var app = {
 
                     contentList.innerHTML = "No Podcasts to load, please add a podcast first"; 
                 }
-                request.send();
+                
             },true); 
         
         

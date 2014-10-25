@@ -30,6 +30,7 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
 	line-height: 1;
+    font-family: 'Roboto', sans-serif;
 }
 ol, ul {
 	list-style: none;
@@ -74,7 +75,7 @@ header h1{
 }
 
 header img{
-    position: fixed;
+    position: absolute;
     top: 0;
     width: 2em;
     padding-top: 15px;
@@ -160,4 +161,25 @@ header img{
 ul{
     list-style: none;
 }
+
+ul img{
+    width: 20%;
+    float: left;
+}
+
+ul li{
+   border: 1px solid #C9C9C9;
+    padding: 10px;
+    margin: 5px;
+    box-shadow: 0 5px 20px #cccccc;
+    height: 70px;
+}
+
+ul h2{
+    float: left;
+    max-width: 70%;
+    padding-left: 5px;
+    color: #03a9f4;
+}
+    
 
