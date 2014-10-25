@@ -59,8 +59,14 @@
                 <div class="seekbar">
                   <input type="range" value="38" />
                   <div class="seekbar-progress">
-                    <div role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="38" style="width: 38%;"></div>
+                    <div role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" style="width: 0%;"></div>
                   </div>
+                </div>
+                
+                <div class = "time">
+                    <h2>
+                    <span id = "progressHours"></span><span id = "progressMinutes">00:</span><span id = "progressSeconds">00</span>/<span id = "durationHours"></span><span id = "durationMinutes">00:</span><span id = "durationSeconds">00</span>
+                    </h2>
                 </div>
                 
             </div>
@@ -71,9 +77,24 @@
                     <img class = "back pushLeft" src="img/arrow-left.svg">
                 </header>
                 
-                <p>Enter a podcast url:</p>
-                <input id="addPodcastText" type="url" value="http://feeds.twit.tv/twit.xml">
+                <div class="group">      
+                  <input id="addPodcastText" type="url" value="" required>
+                  <span class="highlight"></span>
+                  <span class="bar"></span>
+                  <label>Podcast URL</label>
+                </div>
+                
                 <input id="addPodcastButton" type="submit" value="Add Podcast">
+                
+                <h3 class="presetTitle">Our Recommendations:</h3>
+                <div>
+                    <img class="presetPods" data-link="http://feeds.twit.tv/aaa.xml" src="img/AAA.jpg"/>
+                    <img class="presetPods" data-link="http://feeds.twit.tv/tnt.xml" src="img/tnt1400videohi.jpg" />
+                    <img class="presetPods" data-link="http://feeds.twit.tv/twit.xml" src="img/twit300.jpg" />
+                    <img class="presetPods" data-link="http://feeds.twit.tv/arena.xml" src="img/arena1400audio.jpg"/>
+                    <img class="presetPods" data-link="http://feeds.twit.tv/byb.xml" src="img/mza_5927457347812045769.170x170-75.jpg" />
+                    <img class="presetPods" data-link="http://feeds.twit.tv/tn2n.xml" src="img/tn2n1400audio.jpg" />
+                </div>
                 
             </div>
         </div>
