@@ -49,25 +49,36 @@
                     <h1>Player</h1>
                     <img class = "back pushLeft" src="img/arrow-left.svg">
                 </header>
+                
+                <div id="playerImage">
+                    <img id="backgroundImage" src="img/AAA.jpg"/>
+                    <img id="forgroundImage" src="img/AAA.jpg"/>
+                </div>
             
-                <button id = "play">Play!</button>
-                <button id = "pause">Pause!</button>
-                <button id = "stop">JESUS CHRIST STOP!</button>
-                <button id = "skip">Skip 30 Seconds</button>
-                <button id = "reverse">Reverse 10 Seconds</button>
-                
-                <div class="seekbar">
-                  <input type="range" value="38" />
-                  <div class="seekbar-progress">
-                    <div role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" style="width: 0%;"></div>
-                  </div>
+                <div id="playerControls">
+                    <img src="img/playButton.svg" id = "play" />
+                    <img class="hidden" src="img/pauseButton.svg" id = "pause"/>
+                    <button id = "stop">JESUS CHRIST STOP!</button>
+                    <button id = "skip">Skip 30 Seconds</button>
+                    <button id = "reverse">Reverse 10 Seconds</button>
+                    
+                    
+                    <div class="seekbar">
+                        <input type="range" value="38" />
+                        <div class="seekbar-progress">
+                            <div role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" style="width: 0%;"></div>
+                        </div>
+                    </div>
+                    
+                    <div class = "time">
+                        <h2>
+                            <span id = "progressHours"></span><span id = "progressMinutes">00:</span><span id = "progressSeconds">00</span>/<span id = "durationHours"></span><span id = "durationMinutes">00:</span><span id = "durationSeconds">00</span>
+                        </h2>
+                    </div>
+                    
                 </div>
                 
-                <div class = "time">
-                    <h2>
-                    <span id = "progressHours"></span><span id = "progressMinutes">00:</span><span id = "progressSeconds">00</span>/<span id = "durationHours"></span><span id = "durationMinutes">00:</span><span id = "durationSeconds">00</span>
-                    </h2>
-                </div>
+                
                 
             </div>
                 

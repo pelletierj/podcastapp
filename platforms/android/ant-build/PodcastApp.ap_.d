@@ -48,7 +48,11 @@ c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\arena1400audio.j
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\arrow-left.svg \
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\magnify.svg \
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\mza_5927457347812045769.170x170-75.jpg \
+c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\pause.svg \
+c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\pauseButton.svg \
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\play.svg \
+c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\playButton.ai \
+c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\playButton.svg \
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\plus.svg \
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\refresh.svg \
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\tn2n1400audio.jpg \

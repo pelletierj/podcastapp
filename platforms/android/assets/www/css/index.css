@@ -155,6 +155,22 @@ header img{
   background-color: transparent;
 }
 
+#backgroundImage{
+    -webkit-filter: blur(5px);
+    width: 100%;
+}
+
+#forgroundImage{
+    width: 60%;
+    position: absolute;
+    top: 18%;
+    left: 19%;
+}
+
+#play, #pause{
+    width: 20%;
+}
+
 
 /**************************List*********************/
 
@@ -312,11 +328,4 @@ input:focus ~ .highlight {
 	from { background:#03a9f4; }
   to 	{ width:0; background:transparent; }
 }
-}
-
-/*********************Presets*****************/
-
-.presetPods{
-    width: 30%;
-    float: left;
 }

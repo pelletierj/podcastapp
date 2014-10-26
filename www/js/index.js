@@ -330,10 +330,20 @@ var app = {
     
     playPodcast: function(){
         podcast.play();     
+        
+        var hidden = document.getElementById("play");
+        var shown = document.getElementById("pause");
+        hidden.className = "hidden";
+        shown.className = "";
     },
     pausePodcast: function(){
         podcast.pause();
         clearInterval(timerNow);
+        
+        var hidden = document.getElementById("pause");
+        var shown = document.getElementById("play");
+        hidden.className = "hidden";
+        shown.className = "";
     },
     stopPodcast: function(){
         podcast.stop();
