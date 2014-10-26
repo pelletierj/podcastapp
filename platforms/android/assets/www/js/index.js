@@ -354,6 +354,11 @@ var app = {
         document.getElementById("progressHours").innerHTML = "";
         document.getElementById("progressMinutes").innerHTML = "00:";
         document.getElementById("progressSeconds").innerHTML = "00";
+        
+        var hidden = document.getElementById("pause");
+        var shown = document.getElementById("play");
+        hidden.className = "hidden";
+        shown.className = "";
     },
     
     skipPodcast: function(){

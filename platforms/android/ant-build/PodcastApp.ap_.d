@@ -46,6 +46,8 @@ c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\appIcon-01.png \
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\appIcon.ai \
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\arena1400audio.jpg \
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\arrow-left.svg \
+c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\fast-forward.svg \
+c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\fastButton.svg \
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\magnify.svg \
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\mza_5927457347812045769.170x170-75.jpg \
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\pause.svg \
@@ -55,6 +57,10 @@ c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\playButton.ai \
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\playButton.svg \
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\plus.svg \
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\refresh.svg \
+c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\rewind.svg \
+c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\rewindButton.svg \
+c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\stop.svg \
+c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\stopButton.svg \
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\tn2n1400audio.jpg \
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\tnt1400videohi.jpg \
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\twit300.jpg \
