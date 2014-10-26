@@ -444,7 +444,11 @@ var app = {
     },
     
     endPodcast: function(){
-      clearInterval(timerNow);     
+        clearInterval(timerNow);   
+        var hidden = document.getElementById("pause");
+        var shown = document.getElementById("play");
+        hidden.className = "hidden";
+        shown.className = "";
     }
     
 };
