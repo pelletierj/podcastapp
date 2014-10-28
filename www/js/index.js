@@ -172,7 +172,7 @@ var app = {
                     
                     //formate the time exactly like they did in the duration
                     var progressHours = Math.round((position/60)/60);
-                    console.log(progressHours + " hours");
+                    //console.log(progressHours + " hours");
                     
                     if (progressHours < 1){
                         document.getElementById("progressHours").innerHTML = "";   
@@ -181,7 +181,7 @@ var app = {
                     }
                     
                     var progressMinutes = Math.round(position/60);
-                    console.log(progressMinutes + " minutes");
+                    //console.log(progressMinutes + " minutes");
                     if (progressMinutes == 0){
                         document.getElementById("progressMinutes").innerHTML = "00:";   
                     }else if (progressMinutes >= 1 && progressMinutes < 10){
@@ -193,7 +193,7 @@ var app = {
              
                     
                     var progressSeconds = Math.round(position % 60);
-                    console.log(progressSeconds + " seconds");
+                    //console.log(progressSeconds + " seconds");
                     if (progressSeconds < 10){
                         document.getElementById("progressSeconds").innerHTML = "0"+progressSeconds;
                     }else{
@@ -236,9 +236,15 @@ var app = {
     
     },
     
-    mediaSetup: function(){
-      var src = encodeURI("https://dl.dropboxusercontent.com/u/887989/test.mp3");
-      podcast = new Media(src, app.endPodcast);  
+    mediaSetup: function(link){
+        if (!link){
+            var src = encodeURI("https://dl.dropboxusercontent.com/u/887989/test.mp3");
+        }else{ 
+            var src = encodeURI(link);
+        }
+        
+        podcast = new Media(src, app.endPodcast); 
+        
     },
     
     seekbarSetup: function(){
@@ -388,9 +394,6 @@ var app = {
 
                             for(var j = 0; j < podcastList.length; j++){
 
-                                console.log(podcastList[j]);
-                                console.log(podcastList.length);
-
                                 while (contentList.hasChildNodes()) {
                                     contentList.removeChild(contentList.firstChild);
                                 }
@@ -399,7 +402,6 @@ var app = {
                                     request.open("GET", podcastList[j], false);
                                     request.onreadystatechange = function() {
                                     if (request.readyState == 4) {
-                                        console.log(podcastList[j]);
                                         if (request.status == 200 || request.status == 0) {
 
                                             var podcastXML = request.responseXML;
@@ -410,6 +412,7 @@ var app = {
                                             string += "<ul>";
 
                                             for(var i = 0; i < 3; i++){
+                                                string += "<a class='clickedPodcast' data-download="+podcastInfo[i].querySelector("link").textContent+"'>";
                                                 string += "<li>";
                                                 string += "<img src='" +podcastChannel[0].querySelector("image").querySelector("url").textContent +"'/>";
                                                 string += "<h2>";
@@ -419,6 +422,7 @@ var app = {
                                                 string += "Duration: " + podcastInfo[i].getElementsByTagNameNS("*", "duration")[0].textContent;
                                                 string += "</p>";
                                                 string += "</li>";
+                                                string += "</a>"
 
                                             }
 
@@ -441,6 +445,14 @@ var app = {
 
                         contentList.innerHTML = "No Podcasts to load, please add a podcast first"; 
                     }
+        
+        var clickedPodcast = document.getElementsByClassName("clickedPodcast");
+        for(var i=0;i<clickedPodcast.length;i++){
+            clickedPodcast[i].addEventListener("click",function(){
+                app.mediaSetup(this.getAttribute("data-download"));
+                app.goPlayer();
+            },true);
+        }
     },
     
     endPodcast: function(){
