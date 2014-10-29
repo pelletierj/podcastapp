@@ -31,6 +31,12 @@ footer, header, hgroup, menu, nav, section {
 body {
 	line-height: 1;
     font-family: 'Roboto', sans-serif;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+html{
+    max-width: 100%;
+    overflow-x: hidden;
 }
 ol, ul {
 	list-style: none;
@@ -94,12 +100,17 @@ header img{
 
 #player{
     background-color: #FFFFFF;
+    max-width: 100%;
+    overflow-x: hidden;
+    width: 100%;
 }
 
 .seekbar {
     margin: 12px 0;
     padding: 10px 24px;
     position: relative;
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 .seekbar-progress {
@@ -129,25 +140,25 @@ header img{
 }
 
 .seekbar input[type="range"] {
-  -webkit-appearance: none;
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 2;
-  background: transparent;
-  outline: 0;
-  border: 0;
+    -webkit-appearance: none;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    background: transparent;
+    outline: 0;
+    border: 0;
 }
 
 .seekbar input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  display: block;
-  width: 48px;
-  height: 48px;
-  background-color: transparent;
+    -webkit-appearance: none;
+    display: block;
+    width: 48px;
+    height: 48px;
+    background-color: transparent;
 }
 
 #backgroundImage{
@@ -158,8 +169,8 @@ header img{
 #forgroundImage{
     width: 75%;
     position: absolute;
-    top: 15%;
-    left: 12%;
+    top: 12%;
+    left: 11%;
     border: 3px solid #fff;
     border-radius: 10px;
 }
@@ -172,16 +183,14 @@ header img{
 }
 
 #stop, #skip, #reverse{
-    width: 10%;
+    width: 15%;
     margin-bottom: -2%;
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 #reverse{
-    margin-left: 34%;
-}
-
-#skip{
-    margin-left: 3%;
+    margin-left: 20%;
 }
 
 .time{
@@ -201,6 +210,7 @@ header img{
     overflow: hidden;
     position: absolute;
     top: 9.3%;
+    width: 100%;
 }
 
 /**************************List*********************/

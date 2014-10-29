@@ -90,9 +90,15 @@ var app = {
             btnPreset[i].addEventListener("click",function(){
                 //alert(this.getAttribute("data-link"));
                 
-                podcastList.push(this.getAttribute("data-link"));
-        
-                alert("Podcast Added");
+                //podcastList.push(this.getAttribute("data-link"));
+                
+                if(podcastList.indexOf(this.getAttribute("data-link")) == -1){
+                    podcastList.push(this.getAttribute("data-link"));
+                    alert("Podcast Added");
+                }else{
+                    alert("That podcast has already been added");   
+                }
+                
             },true);
         }
             
@@ -171,7 +177,10 @@ var app = {
                     }
                     
                     //formate the time exactly like they did in the duration
-                    var progressHours = Math.round((position/60)/60);
+                    var progressHours = Math.floor((position/60)/60);
+                    if (progressHours < 0){
+                        progressHours = 0;
+                    }
                     //console.log(progressHours + " hours");
                     
                     if (progressHours < 1){
@@ -180,7 +189,10 @@ var app = {
                         document.getElementById("progressHours").innerHTML = progressHours + ":";    
                     }
                     
-                    var progressMinutes = Math.round(position/60);
+                    var progressMinutes = Math.floor(position/60);
+                    if (progressMinutes < 0){
+                        progressMinutes = 0;
+                    }
                     //console.log(progressMinutes + " minutes");
                     if (progressMinutes == 0){
                         document.getElementById("progressMinutes").innerHTML = "00:";   
@@ -192,8 +204,10 @@ var app = {
                     }
              
                     
-                    var progressSeconds = Math.round(position % 60);
-                    //console.log(progressSeconds + " seconds");
+                    var progressSeconds = Math.floor(position % 60);
+                    if (progressSeconds < 0){
+                        progressSeconds = 0;
+                    }
                     if (progressSeconds < 10){
                         document.getElementById("progressSeconds").innerHTML = "0"+progressSeconds;
                     }else{
@@ -304,11 +318,23 @@ var app = {
         });       
     },
     
-    goPlayer: function(){
+    goPlayer: function(image){
         var hidden = document.getElementById("menu");
         var shown = document.getElementById("player");
         hidden.className = "hidden";
         shown.className = "";
+        
+        if(!image){
+            image = "../img/appIcon_grey.png";
+        }else{
+        
+            var backgroundImage = document.getElementById("backgroundImage");
+            var forgroundImage = document.getElementById("forgroundImage");
+
+            backgroundImage.setAttribute("src", image);
+            forgroundImage.setAttribute("src", image);
+        }
+        
     },
     goAdd: function(){
         var hidden = document.getElementById("menu");
@@ -329,9 +355,13 @@ var app = {
         
         textValue = document.getElementById("addPodcastText");
         
-        podcastList.push(textValue.value);
+        if(podcastList.indexOf(textValue.value) == -1){
+            podcastList.push(textValue.value);
+            alert("Podcast Added");
+        }else{
+            alert("That podcast has already been added");   
+        }
         
-        alert("Podcast Added");
     },
     
     playPodcast: function(){
@@ -369,19 +399,13 @@ var app = {
     
     skipPodcast: function(){
         podcast.getCurrentPosition(function(position){
-            //alert(position + " seconds.");
-            //alert("From : " + position * 1000 + " miliseconds.");
             podcast.seekTo(position*1000 + 30000);
-            //alert("To : " + position * 1000 + " miliseconds.");
         });
     },
     
     reversePodcast: function(){
         podcast.getCurrentPosition(function(position){
-            //alert(position + " seconds.");
-            //alert("From : " + position * 1000 + " miliseconds.");
             podcast.seekTo(position*1000 - 10000);
-            //alert("To : " + position * 1000 + " miliseconds.");
         });
     },
     
@@ -412,9 +436,9 @@ var app = {
                                             string += "<ul>";
 
                                             for(var i = 0; i < 3; i++){
-                                                string += "<a class='clickedPodcast' data-download="+podcastInfo[i].querySelector("link").textContent+"'>";
+                                                string += "<a class='clickedPodcast' data-download='"+podcastInfo[i].querySelector("link").textContent+"' data-image='"+podcastChannel[0].querySelector("image").querySelector("url").textContent+"''>";
                                                 string += "<li>";
-                                                string += "<img src='" +podcastChannel[0].querySelector("image").querySelector("url").textContent +"'/>";
+                                                string += "<img class='remoteImage' src='" +podcastChannel[0].querySelector("image").querySelector("url").textContent +"'/>";
                                                 string += "<h2>";
                                                 string += podcastInfo[i].querySelector("title").textContent;
                                                 string += "</h2>";
@@ -449,8 +473,9 @@ var app = {
         var clickedPodcast = document.getElementsByClassName("clickedPodcast");
         for(var i=0;i<clickedPodcast.length;i++){
             clickedPodcast[i].addEventListener("click",function(){
+                //alert(this.getAttribute("data-image"));
                 app.mediaSetup(this.getAttribute("data-download"));
-                app.goPlayer();
+                app.goPlayer(this.getAttribute("data-image"));
             },true);
         }
     },
