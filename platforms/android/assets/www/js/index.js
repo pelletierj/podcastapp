@@ -56,26 +56,28 @@ var app = {
     buttonSetup: function() {
         var btnPlayer = document.getElementById("playerButton");
         btnPlayer.addEventListener("click",function(){
-            app.goPlayer();
-            
+            app.goPlayer();  
         },true);
         
         var btnAdd = document.getElementById("addButton");
         btnAdd.addEventListener("click",function(){
-            app.goAdd();
-            
+            app.goAdd();          
         },true);
         
         var btnAddToList = document.getElementById("addPodcastButton");
         btnAddToList.addEventListener("click",function(){
-            app.addToList();
-            
+            app.addToList();    
         },true);
         
         var btnRefresh = document.getElementById("refresh");
             btnRefresh.addEventListener("click",function(){
                 app.refreshPodcasts();
-            },true);   
+        },true);   
+        
+        var urlLabel = document.getElementById("urlInput");
+            urlLabel.addEventListener("onblur",function(){
+                app.hideLabel();
+        },true); 
         
         var btnBack = document.getElementsByClassName("back");
         for(var i=0;i<btnBack.length;i++){
@@ -351,17 +353,45 @@ var app = {
         shown.className = "";
     },
     
+    hideLabel:function(){
+        if(textValue.value != ""){
+            document.getElementById("urlLabel").className = "hidden";
+        }else{
+            document.getElementById("urlLabel").className = "";
+        }
+    },
+    
     addToList: function(){
         
         textValue = document.getElementById("addPodcastText");
         
-        if(podcastList.indexOf(textValue.value) == -1){
-            podcastList.push(textValue.value);
-            alert("Podcast Added");
+        if(textValue.value != ""){
+            document.getElementById("urlLabel").className = "hidden";
         }else{
-            alert("That podcast has already been added");   
+            document.getElementById("urlLabel").className = "";
         }
         
+        if(app.is_valid_url(textValue.value)){   
+            if(podcastList.indexOf(textValue.value) == -1){
+                podcastList.push(textValue.value);
+                alert("Podcast Added");
+            }else{
+                alert("That podcast has already been added");   
+            }
+        }else{
+            alert("Invalid url. Please ensure that 'http://' is included at the front of the url and that no spaces are present.");
+        }  
+        
+    },
+    
+    is_valid_url: function (url){
+        var myRegExp =/^(?:(?:https?|ftp):\/\/)(?:\S+(?::\S*)?@)?(?:(?!10(?:\.\d{1,3}){3})(?!127(?:\.\d{1,3}){3})(?!169\.254(?:\.\d{1,3}){2})(?!192\.168(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]+-?)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]+-?)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/[^\s]*)?$/i;
+        var urlToValidate = url;
+        if (!myRegExp.test(urlToValidate)){
+            return false;
+        }else{
+            return true;
+        }
     },
     
     playPodcast: function(){
@@ -432,11 +462,13 @@ var app = {
                                             podcastChannel = podcastXML.getElementsByTagName("channel");
                                             podcastInfo = podcastXML.getElementsByTagName("item");
 
+                                            var podcastTitle = podcastChannel[0].querySelector("title").textContent;
+                                            
 
                                             string += "<ul>";
 
                                             for(var i = 0; i < 3; i++){
-                                                string += "<a class='clickedPodcast' data-download='"+podcastInfo[i].querySelector("link").textContent+"' data-image='"+podcastChannel[0].querySelector("image").querySelector("url").textContent+"''>";
+                                                string += "<a class='clickedPodcast' data-download='"+podcastInfo[i].querySelector("link").textContent+"' data-image='"+podcastChannel[0].querySelector("image").querySelector("url").textContent+"' data-title = '"+podcastInfo[i].querySelector("title").textContent+"'>" ;
                                                 string += "<li>";
                                                 string += "<img class='remoteImage' src='" +podcastChannel[0].querySelector("image").querySelector("url").textContent +"'/>";
                                                 string += "<h2>";
@@ -448,7 +480,18 @@ var app = {
                                                 string += "</li>";
                                                 string += "</a>"
 
+                                            var audioSrc = encodeURI(podcastInfo[i].querySelector("link").textContent);
+                                            var audioSplit = audioSrc.split("/");
+                                            var linkFolderName = audioSplit.pop();
+                                            alert(linkFolderName);
+                                            trans = new FileTransfer();
+                                            trans.download(audioSrc,"sdcard/podpro/"+podcastTitle+"/"+linkFolderName+"/audio.mp3", app.downloadSuccess, app.downloadError);
+
                                             }
+                                            
+                                            var imageSrc = encodeURI(podcastChannel[0].querySelector("image").querySelector("url").textContent);
+                                            trans = new FileTransfer();
+                                            trans.download(imageSrc,"sdcard/podpro/"+podcastTitle+"/cover.jpg", app.downloadSuccess, app.downloadError);
 
                                             string += "</ul>";
 
@@ -473,7 +516,7 @@ var app = {
         var clickedPodcast = document.getElementsByClassName("clickedPodcast");
         for(var i=0;i<clickedPodcast.length;i++){
             clickedPodcast[i].addEventListener("click",function(){
-                //alert(this.getAttribute("data-image"));
+                
                 app.mediaSetup(this.getAttribute("data-download"));
                 app.goPlayer(this.getAttribute("data-image"));
             },true);
@@ -486,6 +529,18 @@ var app = {
         var shown = document.getElementById("play");
         hidden.className = "hidden";
         shown.className = "";
+    },
+    
+    downloadSuccess: function(){
+        alert("DING!");   
+        
+    },
+    
+    downloadError: function(e){
+        alert("Something Goof'd");
+        console.log(e);
+        
+        
     }
     
 };

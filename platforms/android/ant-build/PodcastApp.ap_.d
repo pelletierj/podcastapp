@@ -40,6 +40,7 @@ c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img \
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\index.html \
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\js \
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\plugins \
+c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\plugmanTest.txt \
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\css\index.css \
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\AAA.jpg \
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\appIcon-01.png \

@@ -88,11 +88,11 @@
                     <img class = "back pushLeft" src="img/arrow-left.svg">
                 </header>
                 
-                <div class="group">      
+                <div class="group" id="urlInput" onblur="app.hideLabel">      
                   <input id="addPodcastText" type="url" value="" required>
                   <span class="highlight"></span>
                   <span class="bar"></span>
-                  <label>Podcast URL</label>
+                  <label id="urlLabel">Podcast URL</label>
                 </div>
                 
                 <input id="addPodcastButton" type="submit" value="Add Podcast">
