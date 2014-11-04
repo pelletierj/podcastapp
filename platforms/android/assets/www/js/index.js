@@ -353,14 +353,6 @@ var app = {
         shown.className = "";
     },
     
-    hideLabel:function(){
-        if(textValue.value != ""){
-            document.getElementById("urlLabel").className = "hidden";
-        }else{
-            document.getElementById("urlLabel").className = "";
-        }
-    },
-    
     addToList: function(){
         
         textValue = document.getElementById("addPodcastText");
@@ -374,6 +366,8 @@ var app = {
         if(app.is_valid_url(textValue.value)){   
             if(podcastList.indexOf(textValue.value) == -1){
                 podcastList.push(textValue.value);
+                alert(JSON.stringify(podcastList));
+                localStorage["podcastList"] = JSON.stringify(podcastList);
                 alert("Podcast Added");
             }else{
                 alert("That podcast has already been added");   
@@ -439,79 +433,112 @@ var app = {
         });
     },
     
+    checkConnection: function() {
+        var networkState = navigator.network.connection.type;
+
+        var states = {};
+        states[Connection.UNKNOWN]  = 'Unknown';
+        states[Connection.ETHERNET] = 'Ethernet';
+        states[Connection.WIFI]     = 'WiFi';
+        states[Connection.CELL_2G]  = '2G';
+        states[Connection.CELL_3G]  = '3G';
+        states[Connection.CELL_4G]  = '4G';
+        states[Connection.NONE]     = 'None';
+
+        return(states[networkState]);
+    },
+    
     refreshPodcasts: function(){
+        
+        /*var storedNames = JSON.parse(localStorage["podcastList"]);
+        
+        if (storedNames === null) {
+           alert("null");
+        }else{
+            alert(storedNames);
+        }*/
+        
+        //var storedNames = JSON.parse(localStorage["podcastList"]);
     
         contentList = document.getElementById("contentList");
-                    var string = "";
+        var string = "";
+        
+        var networkStatus = app.checkConnection();
+        
+        alert(networkStatus);
 
-                    if(podcastList.length >= 1){
+        if(podcastList.length >= 1 && networkStatus == "WiFi" || podcastList.length >= 1 && networkStatus == "Unknown"){
 
-                            for(var j = 0; j < podcastList.length; j++){
+            for(var j = 0; j < podcastList.length; j++){
 
-                                while (contentList.hasChildNodes()) {
-                                    contentList.removeChild(contentList.firstChild);
-                                }
+                while (contentList.hasChildNodes()) {
+                    contentList.removeChild(contentList.firstChild);
+                }
 
-                                    var request = new XMLHttpRequest();
-                                    request.open("GET", podcastList[j], false);
-                                    request.onreadystatechange = function() {
-                                    if (request.readyState == 4) {
-                                        if (request.status == 200 || request.status == 0) {
+                var request = new XMLHttpRequest();
+                request.open("GET", podcastList[j], false);
+                request.onreadystatechange = function() {
+                if (request.readyState == 4) {
+                    if (request.status == 200 || request.status == 0) {
 
-                                            var podcastXML = request.responseXML;
-                                            podcastChannel = podcastXML.getElementsByTagName("channel");
-                                            podcastInfo = podcastXML.getElementsByTagName("item");
+                        var podcastXML = request.responseXML;
+                        podcastChannel = podcastXML.getElementsByTagName("channel");
+                        podcastInfo = podcastXML.getElementsByTagName("item");
 
-                                            var podcastTitle = podcastChannel[0].querySelector("title").textContent;
-                                            
+                        var podcastTitle = podcastChannel[0].querySelector("title").textContent;
 
-                                            string += "<ul>";
 
-                                            for(var i = 0; i < 3; i++){
-                                                string += "<a class='clickedPodcast' data-download='"+podcastInfo[i].querySelector("link").textContent+"' data-image='"+podcastChannel[0].querySelector("image").querySelector("url").textContent+"' data-title = '"+podcastInfo[i].querySelector("title").textContent+"'>" ;
-                                                string += "<li>";
-                                                string += "<img class='remoteImage' src='" +podcastChannel[0].querySelector("image").querySelector("url").textContent +"'/>";
-                                                string += "<h2>";
-                                                string += podcastInfo[i].querySelector("title").textContent;
-                                                string += "</h2>";
-                                                string += "<p class='duration'>";
-                                                string += "Duration: " + podcastInfo[i].getElementsByTagNameNS("*", "duration")[0].textContent;
-                                                string += "</p>";
-                                                string += "</li>";
-                                                string += "</a>"
+                        string += "<ul>";
 
-                                            var audioSrc = encodeURI(podcastInfo[i].querySelector("link").textContent);
-                                            var audioSplit = audioSrc.split("/");
-                                            var linkFolderName = audioSplit.pop();
-                                            alert(linkFolderName);
-                                            trans = new FileTransfer();
-                                            trans.download(audioSrc,"sdcard/podpro/"+podcastTitle+"/"+linkFolderName+"/audio.mp3", app.downloadSuccess, app.downloadError);
+                        for(var i = 0; i < 3; i++){
+                            string += "<a class='clickedPodcast' data-download='"+podcastInfo[i].querySelector("link").textContent+"' data-image='"+podcastChannel[0].querySelector("image").querySelector("url").textContent+"' data-title = '"+podcastInfo[i].querySelector("title").textContent+"'>" ;
+                            string += "<li>";
+                            string += "<img class='remoteImage' src='" +podcastChannel[0].querySelector("image").querySelector("url").textContent +"'/>";
+                            string += "<h2>";
+                            string += podcastInfo[i].querySelector("title").textContent;
+                            string += "</h2>";
+                            string += "<p class='duration'>";
+                            string += "Duration: " + podcastInfo[i].getElementsByTagNameNS("*", "duration")[0].textContent;
+                            string += "</p>";
+                            string += "</li>";
+                            string += "</a>"
 
-                                            }
-                                            
-                                            var imageSrc = encodeURI(podcastChannel[0].querySelector("image").querySelector("url").textContent);
-                                            trans = new FileTransfer();
-                                            trans.download(imageSrc,"sdcard/podpro/"+podcastTitle+"/cover.jpg", app.downloadSuccess, app.downloadError);
+                        var audioSrc = encodeURI(podcastInfo[i].querySelector("link").textContent);
+                        var audioSplit = audioSrc.split("/");
+                        var linkFolderName = audioSplit.pop();
+                        trans = new FileTransfer();
+                        trans.download(audioSrc,"sdcard/podpro/"+podcastTitle+"/"+linkFolderName+"/audio.mp3", app.downloadSuccess, app.downloadError);
 
-                                            string += "</ul>";
+                        }
 
-                                            console.log(string);
+                        var imageSrc = encodeURI(podcastChannel[0].querySelector("image").querySelector("url").textContent);
+                        trans = new FileTransfer();
+                        trans.download(imageSrc,"sdcard/podpro/"+podcastTitle+"/cover.jpg", app.downloadSuccess, app.downloadError);
 
-                                            contentList.innerHTML += string;
+                        string += "</ul>";
 
-                                            }
-                                        }
-                                    }
+                        console.log(string);
 
-                                request.send();
-                            }
+                        contentList.innerHTML += string;
 
-                    }else{
-
-                        contentList = document.getElementById("contentList");
-
-                        contentList.innerHTML = "No Podcasts to load, please add a podcast first"; 
+                        }
                     }
+                }
+
+                request.send();
+            }
+
+        }else{
+            
+            if(networkStatus != "WiFi"){
+                
+                alert("You are currently not on a wiFi network, your downloads will be completed when you are on a WiFi Network");
+            }
+
+            contentList = document.getElementById("contentList");
+
+            contentList.innerHTML = "No Podcasts to load, please add a podcast first"; 
+        }
         
         var clickedPodcast = document.getElementsByClassName("clickedPodcast");
         for(var i=0;i<clickedPodcast.length;i++){
@@ -532,27 +559,17 @@ var app = {
     },
     
     downloadSuccess: function(){
-        alert("DING!");   
+        alert("Downloads complete");   
         
     },
     
     downloadError: function(e){
-        alert("Something Goof'd");
+        alert("Download Failed");
         console.log(e);
         
         
     }
     
 };
-
-function qs(s) { return document.querySelector(s) }
-
-    var handle = qs('.seekbar input[type="range"]');
-    var progressbar = qs('.seekbar div[role="progressbar"]');
-
-    handle.addEventListener('input', function(){
-      progressbar.style.width = this.value + '%';
-      progressbar.setAttribute('aria-valuenow', this.value);
-    });
 
 app.initialize();
