@@ -213,6 +213,13 @@ header img{
     width: 100%;
 }
 
+.deleteButton{
+    width: 5%;
+    position: absolute;
+    right: 5%;
+    margin-top: -8%;
+}
+
 /**************************List*********************/
 
 ul{

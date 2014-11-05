@@ -351,6 +351,10 @@ var app = {
         shown.className = "";
     },
     
+    goDelete: function(){
+        alert(this.getAttribute("data-title"));
+    },
+    
     addToList: function(){
         
         textValue = document.getElementById("addPodcastText");
@@ -497,6 +501,7 @@ var app = {
                             string += "<p class='duration'>";
                             string += "Duration: " + podcastInfo[i].getElementsByTagNameNS("*", "duration")[0].textContent;
                             string += "</p>";
+                            string += "<img class ='deleteButton' data-title='"+podcastTitle+"' data-folder='"+linkFolderName+"' src='./img/deleteButton.png'/>";
                             string += "</li>";
                             string += "</a>"
 
@@ -554,6 +559,13 @@ var app = {
                 
                 app.mediaSetup(this.getAttribute("data-play"));
                 app.goPlayer(this.getAttribute("data-playImage"));
+            },true);
+        }
+        
+        var btnDelete = document.getElementsByClassName("deleteButton");
+        for(var i=0;i<btnDelete.length;i++){
+            btnDelete[i].addEventListener("click",function(){
+                app.goDelete();
             },true);
         }
     },

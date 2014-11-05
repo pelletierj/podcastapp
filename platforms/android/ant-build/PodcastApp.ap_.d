@@ -49,6 +49,8 @@ c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\appIcon_grey.ai 
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\appIcon_grey.png \
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\arena1400audio.jpg \
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\arrow-left.svg \
+c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\deleteButton.ai \
+c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\deleteButton.png \
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\fast-forward.svg \
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\fastButton.svg \
 c:\wamp\www\mad9135\podcastApp\platforms\android\assets\www\img\magnify.svg \
