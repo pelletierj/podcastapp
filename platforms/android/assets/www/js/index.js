@@ -83,19 +83,17 @@ var app = {
         for(var i=0;i<btnBack.length;i++){
             btnBack[i].addEventListener("click",function(){
                 app.goMenu();
-                app.refreshPodcasts();
+                //app.refreshPodcasts();
             },true);
         }
         
         var btnPreset = document.getElementsByClassName("presetPods");
         for(var i=0;i<btnPreset.length;i++){
             btnPreset[i].addEventListener("click",function(){
-                //alert(this.getAttribute("data-link"));
-                
-                //podcastList.push(this.getAttribute("data-link"));
                 
                 if(podcastList.indexOf(this.getAttribute("data-link")) == -1){
                     podcastList.push(this.getAttribute("data-link"));
+                    localStorage["podcastList"] = JSON.stringify(podcastList);
                     alert("Podcast Added");
                 }else{
                     alert("That podcast has already been added");   
@@ -138,7 +136,7 @@ var app = {
                     }
                     
                     //Gets the Minutes of the duration
-                    var durationMinutes = Math.floor(dur/60);
+                    var durationMinutes = Math.floor(dur/60) % 60;
                     console.log(durationMinutes + " minutes");
                     //if the minutes is less than 1
                     if (durationMinutes < 1){
@@ -191,7 +189,7 @@ var app = {
                         document.getElementById("progressHours").innerHTML = progressHours + ":";    
                     }
                     
-                    var progressMinutes = Math.floor(position/60);
+                    var progressMinutes = Math.floor(position/60) % 60;
                     if (progressMinutes < 0){
                         progressMinutes = 0;
                     }
@@ -288,7 +286,7 @@ var app = {
                         document.getElementById("progressHours").innerHTML = durationHours + ":";    
                     }
                     
-                    var progressMinutes = Math.floor(position/60);
+                    var progressMinutes = Math.floor(position/60) % 60;
                     console.log(progressMinutes + " minutes");
                     if (progressMinutes == 0){
                         document.getElementById("progressMinutes").innerHTML = "00:";   
@@ -366,7 +364,6 @@ var app = {
         if(app.is_valid_url(textValue.value)){   
             if(podcastList.indexOf(textValue.value) == -1){
                 podcastList.push(textValue.value);
-                alert(JSON.stringify(podcastList));
                 localStorage["podcastList"] = JSON.stringify(podcastList);
                 alert("Podcast Added");
             }else{
@@ -450,13 +447,13 @@ var app = {
     
     refreshPodcasts: function(){
         
-        /*var storedNames = JSON.parse(localStorage["podcastList"]);
+        var storedNames = JSON.parse(localStorage["podcastList"]);
         
         if (storedNames === null) {
            alert("null");
         }else{
-            alert(storedNames);
-        }*/
+            podcastList = storedNames;
+        }
         
         //var storedNames = JSON.parse(localStorage["podcastList"]);
     
@@ -464,8 +461,6 @@ var app = {
         var string = "";
         
         var networkStatus = app.checkConnection();
-        
-        alert(networkStatus);
 
         if(podcastList.length >= 1 && networkStatus == "WiFi" || podcastList.length >= 1 && networkStatus == "Unknown"){
 
@@ -491,7 +486,12 @@ var app = {
                         string += "<ul>";
 
                         for(var i = 0; i < 3; i++){
-                            string += "<a class='clickedPodcast' data-download='"+podcastInfo[i].querySelector("link").textContent+"' data-image='"+podcastChannel[0].querySelector("image").querySelector("url").textContent+"' data-title = '"+podcastInfo[i].querySelector("title").textContent+"'>" ;
+                            var audioSrc = encodeURI(podcastInfo[i].querySelector("link").textContent);
+                            var audioSplit = audioSrc.split("/");
+                            var linkFolderName = audioSplit.pop();
+                            trans = new FileTransfer();
+                            
+                            string += "<a class='clickedPodcast' data-download='"+podcastInfo[i].querySelector("link").textContent+"' data-image='"+podcastChannel[0].querySelector("image").querySelector("url").textContent+"' data-title = '"+podcastInfo[i].querySelector("title").textContent+"' data-play='"+cordova.file.externalDataDirectory+"/podpro/"+podcastTitle+"/"+linkFolderName+"/audio.mp3' data-playImage='"+cordova.file.externalDataDirectory+"/podpro/"+podcastTitle+"/cover.jpg'> " ;
                             string += "<li>";
                             string += "<img class='remoteImage' src='" +podcastChannel[0].querySelector("image").querySelector("url").textContent +"'/>";
                             string += "<h2>";
@@ -503,17 +503,25 @@ var app = {
                             string += "</li>";
                             string += "</a>"
 
-                        var audioSrc = encodeURI(podcastInfo[i].querySelector("link").textContent);
-                        var audioSplit = audioSrc.split("/");
-                        var linkFolderName = audioSplit.pop();
-                        trans = new FileTransfer();
-                        trans.download(audioSrc,"sdcard/podpro/"+podcastTitle+"/"+linkFolderName+"/audio.mp3", app.downloadSuccess, app.downloadError);
+                        
+                            window.resolveLocalFileSystemURL(cordova.file.externalDataDirectory, function(info){
+                                console.log(info);
+                                info.getFile("podpro/"+podcastTitle+"/"+linkFolderName+"/audio.mp3",{create:false}, function(){   
+                                }, function(){
+                                    alert("Downloading podcasts, please wait for a success message before playing.");  
+                                                    trans.download(audioSrc,cordova.file.externalDataDirectory+"/podpro/"+podcastTitle+"/"+linkFolderName+"/audio.mp3", app.downloadSuccess, app.downloadError);
+                                                    
+                                });
+                                                
+                            }, function(e){
+                                console.log(e);
+                            });
 
                         }
 
                         var imageSrc = encodeURI(podcastChannel[0].querySelector("image").querySelector("url").textContent);
                         trans = new FileTransfer();
-                        trans.download(imageSrc,"sdcard/podpro/"+podcastTitle+"/cover.jpg", app.downloadSuccess, app.downloadError);
+                        trans.download(imageSrc,cordova.file.externalDataDirectory+"/podpro/"+podcastTitle+"/cover.jpg", app.downloadSuccess, app.downloadError);
 
                         string += "</ul>";
 
@@ -544,8 +552,11 @@ var app = {
         for(var i=0;i<clickedPodcast.length;i++){
             clickedPodcast[i].addEventListener("click",function(){
                 
-                app.mediaSetup(this.getAttribute("data-download"));
-                app.goPlayer(this.getAttribute("data-image"));
+                podcast.stop();
+                podcast.release();
+                
+                app.mediaSetup(this.getAttribute("data-play"));
+                app.goPlayer(this.getAttribute("data-playImage"));
             },true);
         }
     },
