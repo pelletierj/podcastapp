@@ -17,6 +17,7 @@
  * under the License.
  */
 var podcastList = [];
+var stopper = false;
 
 var app = {
     
@@ -351,10 +352,6 @@ var app = {
         shown.className = "";
     },
     
-    goDelete: function(){
-        alert(this.getAttribute("data-title"));
-    },
-    
     addToList: function(){
         
         textValue = document.getElementById("addPodcastText");
@@ -449,12 +446,30 @@ var app = {
         return(states[networkState]);
     },
     
+    detectExists: function(podcastTitle, linkFolderName, trans, audioSrc) {
+        window.resolveLocalFileSystemURL(cordova.file.externalDataDirectory, function(info){
+            console.log(info);
+            info.getFile("podpro/"+podcastTitle+"/"+linkFolderName+"/audio.mp3",{create:false}, function(){   
+            }, function(){
+                
+                if(!stopper){
+                    stopper = true;
+                    alert("Downloading podcasts, please wait for a success message before playing.");  
+                }
+                                trans.download(audioSrc,cordova.file.externalDataDirectory+"/podpro/"+podcastTitle+"/"+linkFolderName+"/audio.mp3", app.downloadSuccess, app.downloadError);
+
+
+            });
+
+        }, function(e){
+            console.log(e);
+        });
+    },
+    
     refreshPodcasts: function(){
         
-        var storedNames = JSON.parse(localStorage["podcastList"]);
-        
-        if (storedNames === null) {
-        }else{
+        if (localStorage["podcastList"]){
+            var storedNames = JSON.parse(localStorage["podcastList"]);
             podcastList = storedNames;
         }
     
@@ -463,7 +478,7 @@ var app = {
         
         var networkStatus = app.checkConnection();
 
-        if(podcastList.length >= 1 && networkStatus == "WiFi" || podcastList.length >= 1 && networkStatus == "Unknown"){
+        if(podcastList.length >= 1 && networkStatus == "WiFi" || podcastList.length >= 1 && networkStatus == "Unknown" || podcastList.length >= 1 && networkStatus == "3G"){
 
             for(var j = 0; j < podcastList.length; j++){
 
@@ -486,7 +501,7 @@ var app = {
 
                         string += "<ul>";
 
-                        for(var i = 0; i < 3; i++){
+                        for(var i = 0; i < 2; i++){
                             var audioSrc = encodeURI(podcastInfo[i].querySelector("link").textContent);
                             var audioSplit = audioSrc.split("/");
                             var linkFolderName = audioSplit.pop();
@@ -501,29 +516,16 @@ var app = {
                             string += "<p class='duration'>";
                             string += "Duration: " + podcastInfo[i].getElementsByTagNameNS("*", "duration")[0].textContent;
                             string += "</p>";
-                            string += "<img class ='deleteButton' data-title='"+podcastTitle+"' data-folder='"+linkFolderName+"' src='./img/deleteButton.png'/>";
                             string += "</li>";
                             string += "</a>"
-
-                        
-                            window.resolveLocalFileSystemURL(cordova.file.externalDataDirectory, function(info){
-                                console.log(info);
-                                info.getFile("podpro/"+podcastTitle+"/"+linkFolderName+"/audio.mp3",{create:false}, function(){   
-                                }, function(){
-                                    alert("Downloading podcasts, please wait for a success message before playing.");  
-                                                    trans.download(audioSrc,cordova.file.externalDataDirectory+"/podpro/"+podcastTitle+"/"+linkFolderName+"/audio.mp3", app.downloadSuccess, app.downloadError);
-                                                    
-                                });
-                                                
-                            }, function(e){
-                                console.log(e);
-                            });
-
+                            
+                            app.detectExists(podcastTitle, linkFolderName, trans, audioSrc);
+                            
                         }
 
                         var imageSrc = encodeURI(podcastChannel[0].querySelector("image").querySelector("url").textContent);
                         trans = new FileTransfer();
-                        trans.download(imageSrc,cordova.file.externalDataDirectory+"/podpro/"+podcastTitle+"/cover.jpg", app.downloadSuccess, app.downloadError);
+                        trans.download(imageSrc,cordova.file.externalDataDirectory+"/podpro/"+podcastTitle+"/cover.jpg", app.downloadSuccessImage, app.downloadError);
 
                         string += "</ul>";
 
@@ -561,13 +563,6 @@ var app = {
                 app.goPlayer(this.getAttribute("data-playImage"));
             },true);
         }
-        
-        var btnDelete = document.getElementsByClassName("deleteButton");
-        for(var i=0;i<btnDelete.length;i++){
-            btnDelete[i].addEventListener("click",function(){
-                app.goDelete();
-            },true);
-        }
     },
     
     endPodcast: function(){
@@ -579,15 +574,17 @@ var app = {
     },
     
     downloadSuccess: function(){
-        alert("Downloads complete");   
+        alert("Downloads complete");  
+        stopper = false;
         
+    },
+    
+    downloadSuccessImage: function(){
     },
     
     downloadError: function(e){
         alert("Download Failed");
-        console.log(e);
-        
-        
+        console.log(e);  
     }
     
 };
